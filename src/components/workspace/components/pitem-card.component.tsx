@@ -6,17 +6,17 @@ interface Props {
   item: string;
 }
 
-const ItemCard = ({ item }: Props) => {
+const PItemCard = ({ item }: Props) => {
   const state = useStateContext();
 
   return (
     <div
-      className={item === state?.cActive ? "item-card active" : "item-card"}
-      onClick={() => state?.setCActive(item)}
+      className={item === state?.pActive ? "item-card active" : "item-card"}
+      onClick={() => state?.setPActive(item)}
     >
       ItemCard
     </div>
   );
 };
 
-export default ItemCard;
+export default PItemCard;

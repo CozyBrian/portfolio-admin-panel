@@ -1,5 +1,5 @@
 import React from "react";
-import ItemCard from "../components/item-card.component";
+import PItemCard from "../components/pitem-card.component";
 
 const ObjectView = () => {
   return (
@@ -7,7 +7,9 @@ const ObjectView = () => {
       <h3 className="view-title">Projects</h3>
       <hr />
       <div className="item-list">
-        <ItemCard />
+        <PItemCard item="5" />
+        <PItemCard item="6" />
+        <PItemCard item="7" />
       </div>
     </div>
   );

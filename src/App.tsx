@@ -3,11 +3,15 @@ import "./App.css";
 import Header from "./components/header";
 import WorkSpace from "./components/workspace";
 
+import { StateContext } from "./context/stateContext";
+
 function App() {
   return (
     <div className="App">
-      <Header />
-      <WorkSpace />
+      <StateContext>
+        <Header />
+        <WorkSpace />
+      </StateContext>
     </div>
   );
 }

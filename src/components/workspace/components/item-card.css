@@ -6,12 +6,14 @@
   padding-left: 8px;
   cursor: pointer;
   transition: 0.1s;
+  margin-bottom: 8px;
+  font-family: 'Nunito', sans-serif;
 }
 .item-card:hover {
-  background-color: #2e8bc020;
+  background-color: #0c2d4852;
 }
 
-.item-card .active{
+.item-card.active{
   background-color: #2E8BC0;
   color: azure;
 }
