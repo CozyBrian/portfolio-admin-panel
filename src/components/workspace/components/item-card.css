@@ -1,0 +1,17 @@
+.item-card {
+  display: flex;
+  height: 55px;
+  align-items: center;
+  border-radius: 4px;
+  padding-left: 8px;
+  cursor: pointer;
+  transition: 0.1s;
+}
+.item-card:hover {
+  background-color: #2e8bc020;
+}
+
+.item-card .active{
+  background-color: #2E8BC0;
+  color: azure;
+}
