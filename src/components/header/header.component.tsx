@@ -4,7 +4,7 @@ import { FiEdit } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 import { AiFillCaretDown } from "react-icons/ai";
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <div className="Header">
       <div className="branding-container">

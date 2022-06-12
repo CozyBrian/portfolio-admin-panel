@@ -1,0 +1,26 @@
+.WorkSpace {
+  display: flex;
+  min-height: 95vh;
+  color: black;
+}
+
+.vl {
+  border-left: 2px solid rgb(205, 205, 205);
+  min-height: 95vh
+}
+
+.view {
+  min-width: 20vw;
+}
+
+.view-title {
+  display: flex;
+  margin: 16px;
+  align-items: center;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.item-list {
+  padding: 8px;
+  padding-top: 0px;
+}
