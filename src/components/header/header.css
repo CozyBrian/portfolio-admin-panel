@@ -1,0 +1,57 @@
+.Header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  background-color: #0C2D48;
+  justify-content: space-between;
+  color: azure;
+}
+
+.branding {
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  color: azure;
+}
+
+.branding-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-box {
+  height: 25px;
+  width: 350px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 2px solid;
+  margin-left: 0.5rem;
+  background-color: #0C2D48;
+  border-color: #1f486c;
+  color: azure;
+  padding: 4px;
+}
+
+.search-box:focus {
+  outline: none;
+}
+
+.Header-links {
+  display: flex;
+  padding-right: 1rem;
+  align-items: center;
+}
+
+.account-icon {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.icon-button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
