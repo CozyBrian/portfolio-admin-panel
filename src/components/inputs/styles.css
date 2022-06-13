@@ -21,3 +21,47 @@
   padding-bottom: 8px;
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  min-height: 150px;
+  padding: 2px;
+  border: 2px solid;
+  border-color: rgb(205, 205, 205);
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.image {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.103);
+  border-radius: 4px;
+  justify-content: center;
+}
+
+.button {
+  display: flex;
+  height: 30px;
+  width: 100%;
+  margin-top: 4px;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  border: 2px solid rgb(205, 205, 205);
+  color: rgb(43, 43, 43);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button:active {
+  color: rgb(0, 0, 0);
+  border-color: rgb(142, 142, 142);
+}
+

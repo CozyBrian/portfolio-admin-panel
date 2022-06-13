@@ -1,5 +1,5 @@
 import { useStateContext } from "../../../context/stateContext";
-import { TextInput } from "../../inputs";
+import { TextInput, ImageInput } from "../../inputs";
 import "./propertyview.css";
 
 const PropertiesView = () => {
@@ -13,7 +13,10 @@ const PropertiesView = () => {
       <h3 className="view-title">{pActive}</h3>
       <hr />
       <div className="fields-view">
-        <TextInput />
+        <TextInput title="Title" />
+        <TextInput title="Description" />
+        <ImageInput />
+        <TextInput title="Link" />
       </div>
     </div>
   );
