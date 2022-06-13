@@ -9,10 +9,13 @@ interface Props {
 const PItemCard = ({ item }: Props) => {
   const state = useStateContext();
 
+  if (!state) return null;
+  const { pActive, setPActive } = state;
+
   return (
     <div
-      className={item === state?.pActive ? "item-card active" : "item-card"}
-      onClick={() => state?.setPActive(item)}
+      className={item === pActive ? "item-card active" : "item-card"}
+      onClick={() => setPActive(item)}
     >
       {item}
     </div>

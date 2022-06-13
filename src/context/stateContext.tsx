@@ -24,8 +24,7 @@ const state = createContext<stateContext | null>(null);
 
 export const StateContext = ({ children }: any) => {
   const [cActive, setCActive] = useState("Projects");
-  const [pActive, setPActive] = useState("5");
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [pActive, setPActive] = useState("MealsToGo");
   const [projects, setProjects] = useState([]);
 
   const dbRef = ref(database);
@@ -36,7 +35,6 @@ export const StateContext = ({ children }: any) => {
         if (snapshot.exists()) {
           setProjects(snapshot.val());
           console.log("Loaded");
-          setIsLoaded(true);
         }
       })
       .catch((e) => {
@@ -46,6 +44,7 @@ export const StateContext = ({ children }: any) => {
 
   useEffect(() => {
     onLoad();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
