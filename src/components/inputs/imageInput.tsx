@@ -2,11 +2,11 @@ import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import "./styles.css";
 
-const ImageCard = () => {
+const ImageCard = ({ url }: any) => {
   return (
     <div className="image-container">
       <div className="image">
-        <img src="" />
+        <img src={url} alt="" />
       </div>
       <button className="button">
         <AiOutlinePlus />

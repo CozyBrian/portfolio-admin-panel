@@ -1,5 +1,5 @@
 import { useStateContext } from "../../../context/stateContext";
-import { TextInput, ImageInput } from "../../inputs";
+import { TextInput, ImageInput, RadioInput } from "../../inputs";
 import "./propertyview.css";
 
 const PropertiesView = () => {
@@ -15,6 +15,7 @@ const PropertiesView = () => {
       <div className="fields-view">
         <TextInput title="Title" />
         <TextInput title="Description" />
+        <RadioInput />
         <ImageInput />
         <TextInput title="Link" />
       </div>
