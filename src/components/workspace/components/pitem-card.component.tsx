@@ -14,7 +14,7 @@ const PItemCard = ({ item }: Props) => {
       className={item === state?.pActive ? "item-card active" : "item-card"}
       onClick={() => state?.setPActive(item)}
     >
-      ItemCard
+      {item}
     </div>
   );
 };

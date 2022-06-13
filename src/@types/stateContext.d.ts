@@ -3,4 +3,6 @@ export type stateContext = {
   pActive: string;
   setCActive: React.Dispatch<React.SetStateAction<string>>;
   setPActive: React.Dispatch<React.SetStateAction<string>>;
+  onLoad: () => void;
+  projects: never[];
 };

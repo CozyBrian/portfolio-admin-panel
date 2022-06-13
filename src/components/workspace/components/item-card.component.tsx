@@ -14,7 +14,7 @@ const ItemCard = ({ item }: Props) => {
       className={item === state?.cActive ? "item-card active" : "item-card"}
       onClick={() => state?.setCActive(item)}
     >
-      ItemCard
+      {item}
     </div>
   );
 };
