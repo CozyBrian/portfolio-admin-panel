@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const RadioInput = () => {
-  const [selected, setSelected] = useState("web");
+interface Props {
+  value: string;
+}
+
+const RadioInput = ({ value }: Props) => {
+  const [selected, setSelected] = useState(value);
+
+  useEffect(() => {
+    setSelected(value);
+  }, [value]);
 
   return (
     <div className="input-container">
-      <div className="text-field-title">Title</div>
+      <div className="text-field-title">Type</div>
       <div className="radio-field">
         <div
           className={selected === "web" ? "radio w active" : "radio w"}

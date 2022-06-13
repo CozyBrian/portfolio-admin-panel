@@ -5,4 +5,5 @@ export type stateContext = {
   setPActive: React.Dispatch<React.SetStateAction<string>>;
   onLoad: () => void;
   projects: never[];
+  curObject: any;
 };

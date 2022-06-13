@@ -16,15 +16,19 @@ const ImageCard = ({ url }: any) => {
   );
 };
 
-const ImageInput = () => {
+interface Props {
+  value: string;
+}
+
+const ImageInput = ({ value }: Props) => {
   return (
     <div className="input-container">
       <div className="text-field-title">Image</div>
-      <ImageCard />
+      <ImageCard url={value} />
       <input
         type="input"
         onChange={() => null}
-        placeholder=""
+        placeholder={value}
         className="text-input"
       />
     </div>

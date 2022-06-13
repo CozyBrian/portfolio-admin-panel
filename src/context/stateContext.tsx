@@ -26,6 +26,8 @@ export const StateContext = ({ children }: any) => {
   const [cActive, setCActive] = useState("Projects");
   const [pActive, setPActive] = useState("MealsToGo");
   const [projects, setProjects] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [curObject, setCurObject] = useState({});
 
   const dbRef = ref(database);
 
@@ -35,6 +37,7 @@ export const StateContext = ({ children }: any) => {
         if (snapshot.exists()) {
           setProjects(snapshot.val());
           console.log("Loaded");
+          setLoaded(true);
         }
       })
       .catch((e) => {
@@ -47,6 +50,12 @@ export const StateContext = ({ children }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const selObject = projects.filter((item: any) => item.title === pActive)[0];
+    setCurObject(selObject);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pActive, loaded]);
+
   return (
     <>
       <state.Provider
@@ -57,6 +66,7 @@ export const StateContext = ({ children }: any) => {
           setPActive,
           onLoad,
           projects,
+          curObject,
         }}
       >
         {children}

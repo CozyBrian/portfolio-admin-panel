@@ -1,18 +1,21 @@
-import React from "react";
+import { useState } from "react";
 import "./styles.css";
 
 interface Props {
-  title: string;
+  name: string;
+  placeholder: string;
 }
 
-const TextInput = ({ title }: Props) => {
+const TextInput = ({ name, placeholder }: Props) => {
+  const [value, setValue] = useState("");
   return (
     <div className="input-container">
-      <div className="text-field-title">{title}</div>
+      <div className="text-field-title">{name}</div>
       <input
         type="input"
-        onChange={() => null}
-        placeholder=""
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder={placeholder}
         className="text-input"
       />
     </div>
