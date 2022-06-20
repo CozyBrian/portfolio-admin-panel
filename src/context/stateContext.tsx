@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getStorage, ref as sRef, uploadBytes } from "firebase/storage";
 import { ref, child, get } from "firebase/database";
 
 import { stateContext } from "../@types/stateContext";
@@ -19,6 +20,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const storage = getStorage(app);
 
 const state = createContext<stateContext | null>(null);
 
@@ -30,6 +32,14 @@ export const StateContext = ({ children }: any) => {
   const [curObject, setCurObject] = useState({});
 
   const dbRef = ref(database);
+
+  const uploadImage = (image: any) => {
+    if (image == null) return null;
+    const imgRef = sRef(storage, `projects-screenshots/${image.name}`);
+    uploadBytes(imgRef, image).then(() => {
+      console.log("uploaded");
+    });
+  };
 
   const onLoad = () => {
     get(child(dbRef, "Projects/"))
@@ -67,6 +77,7 @@ export const StateContext = ({ children }: any) => {
           onLoad,
           projects,
           curObject,
+          uploadImage,
         }}
       >
         {children}

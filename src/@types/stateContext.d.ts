@@ -6,4 +6,5 @@ export type stateContext = {
   onLoad: () => void;
   projects: never[];
   curObject: any;
+  uploadImage: (image: any) => void;
 };
