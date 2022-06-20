@@ -1,16 +1,22 @@
 import PItemCard from "../components/pitem-card.component";
+import { AiOutlinePlus } from "react-icons/ai";
 import { useStateContext } from "../../../context/stateContext";
 
 const ObjectView = () => {
   const state = useStateContext();
 
   if (!state) return null;
-  const { projects } = state;
+  const { projects, newProject } = state;
 
   return (
     <div className="view ObjectView">
-      <h3 className="view-title">Projects</h3>
-      <hr />
+      <div className="view-title-bar">
+        <h3 className="view-title">Projects</h3>
+        <div className="tbutton" onClick={() => newProject()}>
+          <AiOutlinePlus />
+        </div>
+      </div>
+      <hr className="hr" />
       <div className="item-list">
         {!projects
           ? null
