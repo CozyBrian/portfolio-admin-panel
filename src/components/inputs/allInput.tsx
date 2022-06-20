@@ -8,17 +8,20 @@ interface Props {
 }
 
 const Inputs = ({ obj }: Props) => {
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState<any>("");
-  const [link, setLink] = useState("");
-  const [disc, setDisc] = useState("");
-  const [imgButtonClicked, setImgButtonClicked] = useState(false);
-  const [selected, setSelected] = useState(obj.type);
-
   const state = useStateContext();
 
   if (!state) return null;
-  const { uploadImage } = state;
+  const { uploadImage, imageUrl } = state;
+
+  const { title, setTitle } = state;
+  const { image, setImage } = state;
+  const { link, setLink } = state;
+  const { disc, setDisc } = state;
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [selected, setSelected] = useState(obj.type);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [imgButtonClicked, setImgButtonClicked] = useState(false);
 
   const placeholder = "t";
 
@@ -78,7 +81,7 @@ const Inputs = ({ obj }: Props) => {
           }
         >
           <div className="image">
-            <img src={image} alt="" />
+            {image.name && <img src={URL.createObjectURL(image)} alt="" />}
           </div>
           <input
             type="file"
@@ -115,7 +118,7 @@ const Inputs = ({ obj }: Props) => {
         </div>
         <input
           type="input"
-          value={image.name}
+          value={imageUrl}
           placeholder="Image link"
           className="text-input"
         />

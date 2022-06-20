@@ -1,7 +1,12 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getStorage, ref as sRef, uploadBytes } from "firebase/storage";
+import {
+  getStorage,
+  ref as sRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import { ref, child, get } from "firebase/database";
 
 import { stateContext } from "../@types/stateContext";
@@ -31,14 +36,24 @@ export const StateContext = ({ children }: any) => {
   const [loaded, setLoaded] = useState(false);
   const [curObject, setCurObject] = useState({});
 
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState<any>({});
+  const [link, setLink] = useState("");
+  const [disc, setDisc] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
   const dbRef = ref(database);
 
   const uploadImage = (image: any) => {
     if (image == null) return null;
     const imgRef = sRef(storage, `projects-screenshots/${image.name}`);
-    uploadBytes(imgRef, image).then(() => {
-      console.log("uploaded");
-    });
+    uploadBytes(imgRef, image)
+      .then(() => {
+        console.log("uploaded");
+      })
+      .then(() => {
+        getDownloadURL(imgRef).then((url) => setImageUrl(url));
+      });
   };
 
   const onLoad = () => {
@@ -78,6 +93,15 @@ export const StateContext = ({ children }: any) => {
           projects,
           curObject,
           uploadImage,
+          title,
+          image,
+          link,
+          disc,
+          setTitle,
+          setImage,
+          setLink,
+          setDisc,
+          imageUrl,
         }}
       >
         {children}
