@@ -7,7 +7,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
-import { ref, child, get, update } from "firebase/database";
+import { ref, child, get } from "firebase/database";
 
 import { stateContext } from "../@types/stateContext";
 
@@ -32,17 +32,14 @@ const state = createContext<stateContext | null>(null);
 export const StateContext = ({ children }: any) => {
   const [cActive, setCActive] = useState("Projects");
   const [pActive, setPActive] = useState("MealsToGo");
-  const [projects, setProjects] = useState<any>([]);
-  const [numProj, setNumProj] = useState(0);
+  const [projects, setProjects] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [curObject, setCurObject] = useState<any>({});
-  const [untitled, setUntitled] = useState(1);
+  const [curObject, setCurObject] = useState({});
 
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<any>({});
   const [link, setLink] = useState("");
   const [disc, setDisc] = useState("");
-  const [selected, setSelected] = useState<any>("web");
   const [imageUrl, setImageUrl] = useState("");
 
   const dbRef = ref(database);
@@ -57,46 +54,6 @@ export const StateContext = ({ children }: any) => {
       .then(() => {
         getDownloadURL(imgRef).then((url) => setImageUrl(url));
       });
-  };
-
-  const newProject = () => {
-    const title = `Untilted-${untitled}`;
-    const nP = {
-      title: title,
-      image: "",
-      type: "web",
-      link: "",
-      disc: "",
-    };
-    console.log(projects.length);
-    setNumProj(projects.length);
-    setProjects([...projects, nP]);
-    setPActive(title);
-    setUntitled(untitled + 1);
-  };
-
-  const publish = () => {
-    const curObj = {
-      title: title,
-      image: imageUrl,
-      type: selected,
-      link: link,
-      disc: disc,
-    };
-
-    update(ref(database, "Projects/" + numProj), curObj)
-      .then(() => {
-        console.log("published");
-      })
-      .catch((e) => {
-        console.error(e);
-      })
-      .finally(() => {
-        onLoad();
-        setPActive(curObj.title);
-      });
-
-    console.log(curObj);
   };
 
   const onLoad = () => {
@@ -145,15 +102,11 @@ export const StateContext = ({ children }: any) => {
           image,
           link,
           disc,
-          selected,
           setTitle,
           setImage,
           setLink,
           setDisc,
-          setSelected,
           imageUrl,
-          newProject,
-          publish,
         }}
       >
         {children}

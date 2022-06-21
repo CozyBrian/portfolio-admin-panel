@@ -17,10 +17,13 @@ const Inputs = ({ obj }: Props) => {
   const { image, setImage } = state;
   const { link, setLink } = state;
   const { disc, setDisc } = state;
-  const { selected, setSelected } = state;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [selected, setSelected] = useState(obj.type);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [imgButtonClicked, setImgButtonClicked] = useState(false);
+
+  const placeholder = "t";
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -29,7 +32,6 @@ const Inputs = ({ obj }: Props) => {
     setSelected(obj.type);
     //setImage(obj.image);
     setLink(obj.link);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [obj]);
 
   return (
@@ -40,7 +42,7 @@ const Inputs = ({ obj }: Props) => {
           type="input"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder={placeholder}
           className="text-input"
         />
       </div>
@@ -50,7 +52,7 @@ const Inputs = ({ obj }: Props) => {
           type="input"
           value={disc}
           onChange={(e) => setDisc(e.target.value)}
-          placeholder="Description"
+          placeholder={placeholder}
           className="text-input"
         />
       </div>
@@ -79,8 +81,7 @@ const Inputs = ({ obj }: Props) => {
           }
         >
           <div className="image">
-            {<img src={obj.image} alt="" /> ||
-              (image.name && <img src={URL.createObjectURL(image)} alt="" />)}
+            {image.name && <img src={URL.createObjectURL(image)} alt="" />}
           </div>
           <input
             type="file"

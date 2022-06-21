@@ -12,6 +12,7 @@
   height: 79vh;
 }
 
+<<<<<<< HEAD
 .view-title-bar {
   display: flex;
   height: 6vh;
@@ -58,3 +59,5 @@
 .delete-icon {
   padding: 8px;
 }
+=======
+>>>>>>> parent of 82ed5cd (feat: updating projects)
