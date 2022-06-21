@@ -110,6 +110,11 @@ export const StateContext = ({ children }: any) => {
       })
       .catch((e) => {
         console.error(e);
+      })
+      .finally(() => {
+        console.log(projects);
+        console.log(projects.indexOf(curObject));
+        console.log(projects.toString);
       });
   };
 
