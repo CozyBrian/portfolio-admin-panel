@@ -1,21 +1,13 @@
 .PropertiesView {
   width: 100%;
-  max-height: 78.7vh;
-}
-
-.viewtest {
-  display: flexbox;
 }
 
 .fields-view {
   padding: 1rem;
-  height: 79vh;
 }
 
-<<<<<<< HEAD
 .view-title-bar {
   display: flex;
-  height: 6vh;
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
@@ -45,19 +37,3 @@
 .hr {
   margin-top: 0;
 }
-.hr.b {
-  margin: 0;
-}
-
-
-.title-icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.delete-icon {
-  padding: 8px;
-}
-=======
->>>>>>> parent of 82ed5cd (feat: updating projects)
