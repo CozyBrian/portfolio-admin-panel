@@ -121,6 +121,9 @@ export const StateContext = ({ children }: any) => {
   useEffect(() => {
     const selObject = projects.filter((item: any) => item.title === pActive)[0];
     setCurObject(selObject);
+    if (curObject) {
+      setImageUrl(curObject.image);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pActive, loaded]);
 

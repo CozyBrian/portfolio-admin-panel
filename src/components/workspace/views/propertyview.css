@@ -14,6 +14,13 @@
   padding-right: 8px;
 }
 
+.view-title-icons {
+  position: relative;
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+}
+
 .tbutton {
   display: flex;
   height: 32px;
@@ -33,7 +40,64 @@
 .tbutton:active {
   transform: scale(0.95, 0.95);
 }
+.ibutton {
+  display: flex;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 6px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: 0.1s;
+  font-family: 'Nunito', sans-serif;
+}
+.ibutton:hover {
+  background-color: #00000015;
+}
+.ibutton:active {
+  transform: scale(0.95, 0.95);
+}
+.ibutton.active {
+  background-color: #00000041;
+}
 
 .hr {
   margin-top: 0;
+}
+
+.popup {
+  position: absolute;
+  top: 51px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  padding: 4px;
+  padding-bottom: 0px;
+  z-index: 10;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.menu-item {
+  display: flex;
+  height: 30px;
+  width: 95%;
+  align-items: center;
+  border-radius: 4px;
+  padding-left: 8px;
+  cursor: pointer;
+  transition: 0.1s;
+  margin-bottom: 4px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.menu-item:hover {
+  background-color: #0c2d4852;
+}
+
+.icon {
+  padding-right: 6px;
 }
