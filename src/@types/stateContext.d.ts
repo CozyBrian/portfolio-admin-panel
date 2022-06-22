@@ -21,4 +21,6 @@ export type stateContext = {
   newProject: () => void;
   publish: () => void;
   onDelete: () => void;
+  imgButtonClicked: boolean;
+  setImgButtonClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };

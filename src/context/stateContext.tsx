@@ -44,6 +44,7 @@ export const StateContext = ({ children }: any) => {
   const [disc, setDisc] = useState("");
   const [selected, setSelected] = useState<any>("web");
   const [imageUrl, setImageUrl] = useState("");
+  const [imgButtonClicked, setImgButtonClicked] = useState(false);
 
   const dbRef = ref(database);
 
@@ -96,27 +97,25 @@ export const StateContext = ({ children }: any) => {
         setTimeout(() => {
           setPActive(curObj.title);
         }, 300);
+        setImgButtonClicked(false);
       });
-
-    console.log(curObj);
   };
 
   const onDelete = () => {
-    const id = projects.indexOf(curObject);
-    console.log(id);
-    remove(ref(database, "Projects/" + id))
-      .then(() => {
-        console.log(`item ${id} deleted`);
-      })
-      .then(() => {
-        onLoad();
-        setTimeout(() => {
-          setPActive("MealsToGo");
-        }, 300);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    // const id = projects.indexOf(curObject);
+    // remove(ref(database, "Projects/" + id))
+    //   .then(() => {
+    //     console.log(`item ${id} deleted`);
+    //   })
+    //   .then(() => {
+    //     onLoad();
+    //     setTimeout(() => {
+    //       setPActive("MealsToGo");
+    //     }, 300);
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //   });
   };
 
   const onLoad = () => {
@@ -145,7 +144,22 @@ export const StateContext = ({ children }: any) => {
       setImageUrl(curObject.image);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pActive, loaded]);
+  }, [loaded]);
+
+  useEffect(() => {
+    const selObject = projects.filter((item: any) => item.title === pActive)[0];
+    setCurObject(selObject);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pActive]);
+
+  useEffect(() => {
+    if (curObject) {
+      setImageUrl(curObject.image);
+      setImage(curObject.image);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [curObject]);
 
   return (
     <>
@@ -173,6 +187,8 @@ export const StateContext = ({ children }: any) => {
           newProject,
           publish,
           onDelete,
+          imgButtonClicked,
+          setImgButtonClicked,
         }}
       >
         {children}

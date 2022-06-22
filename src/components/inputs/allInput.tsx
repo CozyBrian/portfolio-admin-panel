@@ -18,9 +18,7 @@ const Inputs = ({ obj }: Props) => {
   const { link, setLink } = state;
   const { disc, setDisc } = state;
   const { selected, setSelected } = state;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [imgButtonClicked, setImgButtonClicked] = useState(false);
+  const { imgButtonClicked, setImgButtonClicked } = state;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -79,8 +77,11 @@ const Inputs = ({ obj }: Props) => {
           }
         >
           <div className="image">
-            {<img src={obj.image} alt="" /> ||
-              (image.name && <img src={URL.createObjectURL(image)} alt="" />)}
+            {imgButtonClicked ? (
+              image.name && <img src={URL.createObjectURL(image)} alt="" />
+            ) : (
+              <img src={obj.image} alt="" />
+            )}
           </div>
           <input
             type="file"
@@ -89,7 +90,6 @@ const Inputs = ({ obj }: Props) => {
             onChange={(e) => {
               if (!e.target.files) return;
               setImage(e.target.files[0]);
-              console.log(e.target.files[0]);
             }}
             hidden
           />
