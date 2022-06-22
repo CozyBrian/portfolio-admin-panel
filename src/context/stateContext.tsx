@@ -7,7 +7,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
-import { ref, child, get, update } from "firebase/database";
+import { ref, child, get, update, remove } from "firebase/database";
 
 import { stateContext } from "../@types/stateContext";
 
@@ -64,15 +64,15 @@ export const StateContext = ({ children }: any) => {
     const nP = {
       title: title,
       image: "",
-      type: "web",
+      type: selected,
       link: "",
       disc: "",
     };
-    console.log(projects.length);
     setNumProj(projects.length);
     setProjects([...projects, nP]);
     setPActive(title);
     setUntitled(untitled + 1);
+    setImageUrl("");
   };
 
   const publish = () => {
@@ -93,10 +93,30 @@ export const StateContext = ({ children }: any) => {
       })
       .finally(() => {
         onLoad();
-        setPActive(curObj.title);
+        setTimeout(() => {
+          setPActive(curObj.title);
+        }, 300);
       });
 
     console.log(curObj);
+  };
+
+  const onDelete = () => {
+    const id = projects.indexOf(curObject);
+    console.log(id);
+    remove(ref(database, "Projects/" + id))
+      .then(() => {
+        console.log(`item ${id} deleted`);
+      })
+      .then(() => {
+        onLoad();
+        setTimeout(() => {
+          setPActive("MealsToGo");
+        }, 300);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onLoad = () => {
@@ -152,6 +172,7 @@ export const StateContext = ({ children }: any) => {
           imageUrl,
           newProject,
           publish,
+          onDelete,
         }}
       >
         {children}

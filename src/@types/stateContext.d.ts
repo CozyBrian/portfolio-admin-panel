@@ -20,4 +20,5 @@ export type stateContext = {
   imageUrl: string;
   newProject: () => void;
   publish: () => void;
+  onDelete: () => void;
 };

@@ -11,7 +11,7 @@ const PropertiesView = () => {
   const state = useStateContext();
 
   if (!state) return null;
-  const { pActive, curObject, publish } = state;
+  const { pActive, curObject, publish, onLoad, onDelete } = state;
 
   return (
     <div className="PropertiesView">
@@ -30,11 +30,11 @@ const PropertiesView = () => {
           </div>
           {isVisibleMenu && (
             <div className="popup">
-              <div className="menu-item">
+              <div className="menu-item" onClick={() => onDelete()}>
                 <IoTrashOutline size={20} className="icon" color="#930000" />
                 Delete
               </div>
-              <div className="menu-item">
+              <div className="menu-item" onClick={() => onLoad()}>
                 <IoRefresh size={20} className="icon" />
                 Refresh
               </div>
