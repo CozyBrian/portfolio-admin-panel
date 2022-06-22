@@ -102,20 +102,20 @@ export const StateContext = ({ children }: any) => {
   };
 
   const onDelete = () => {
-    // const id = projects.indexOf(curObject);
-    // remove(ref(database, "Projects/" + id))
-    //   .then(() => {
-    //     console.log(`item ${id} deleted`);
-    //   })
-    //   .then(() => {
-    //     onLoad();
-    //     setTimeout(() => {
-    //       setPActive("MealsToGo");
-    //     }, 300);
-    //   })
-    //   .catch((e) => {
-    //     console.error(e);
-    //   });
+    const id = projects.indexOf(curObject);
+    remove(ref(database, "Projects/" + id))
+      .then(() => {
+        console.log(`item ${id} deleted`);
+      })
+      .then(() => {
+        onLoad();
+        setTimeout(() => {
+          setPActive("MealsToGo");
+        }, 300);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onLoad = () => {
