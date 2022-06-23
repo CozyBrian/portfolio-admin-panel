@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useStateContext } from "../../context/stateContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import "./styles.css";
