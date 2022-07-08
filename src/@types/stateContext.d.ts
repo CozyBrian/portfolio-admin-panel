@@ -1,11 +1,13 @@
+import { project } from "./project";
+
 export type stateContext = {
   cActive: string;
   pActive: string;
   setCActive: React.Dispatch<React.SetStateAction<string>>;
   setPActive: React.Dispatch<React.SetStateAction<string>>;
   onLoad: () => void;
-  projects: any;
-  curObject: any;
+  projects: project[];
+  curObject: project;
   uploadImage: (image: any) => void;
   title: string;
   image: any;

@@ -10,6 +10,7 @@ import {
 import { ref, child, get, update, remove } from "firebase/database";
 
 import { stateContext } from "../@types/stateContext";
+import { project } from "../@types/project";
 
 const firebaseConfig = {
   apiKey: `${process.env.REACT_APP_FIREBASE_KEY}`,
@@ -32,10 +33,10 @@ const state = createContext<stateContext | null>(null);
 export const StateContext = ({ children }: any) => {
   const [cActive, setCActive] = useState("Projects");
   const [pActive, setPActive] = useState("MealsToGo");
-  const [projects, setProjects] = useState<any>([]);
+  const [projects, setProjects] = useState<project[]>([]);
   const [numProj, setNumProj] = useState(0);
   const [loaded, setLoaded] = useState(false);
-  const [curObject, setCurObject] = useState<any>({});
+  const [curObject, setCurObject] = useState<project>(projects[0]);
   const [untitled, setUntitled] = useState(1);
 
   const [title, setTitle] = useState("");
