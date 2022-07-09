@@ -18,16 +18,6 @@ export const AuthenticationContext = ({ children }: any) => {
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const auth = getAuth();
-  onAuthStateChanged(auth, (usr) => {
-    if (usr) {
-      setIsAuthenticated(!!usr);
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-    }
-  });
-
   const onLogin = (email: string, password: string) => {
     setIsLoading(true);
     loginRequest(email, password)
