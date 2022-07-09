@@ -118,6 +118,7 @@ const Inputs = ({ obj }: Props) => {
         <input
           type="input"
           value={imageUrl}
+          readOnly={true}
           placeholder="Image link"
           className="text-input"
         />
