@@ -1,6 +1,10 @@
 import { useContext, useState, createContext } from "react";
 import { authContext } from "../@types/authContext";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 const loginRequest = (email: string, password: string) => {
   const auth = getAuth();
@@ -13,6 +17,16 @@ export const AuthenticationContext = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (usr) => {
+    if (usr) {
+      setIsAuthenticated(!!usr);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+    }
+  });
 
   const onLogin = (email: string, password: string) => {
     setIsLoading(true);
