@@ -1,4 +1,5 @@
 import "./App.css";
+import { Toaster } from "react-hot-toast";
 
 import Header from "./components/header";
 import WorkSpace from "./components/workspace";
@@ -18,6 +19,7 @@ function App() {
         <StateContext>
           <Header />
           <WorkSpace />
+          <Toaster />
         </StateContext>
       ) : (
         <Authetication />

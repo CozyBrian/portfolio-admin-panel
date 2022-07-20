@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import toast from "react-hot-toast";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import {
@@ -54,10 +55,14 @@ export const StateContext = ({ children }: any) => {
     const imgRef = sRef(storage, `projects-screenshots/${image.name}`);
     uploadBytes(imgRef, image)
       .then(() => {
-        console.log("uploaded");
+        toast.success("Image Uploaded");
       })
       .then(() => {
         getDownloadURL(imgRef).then((url) => setImageUrl(url));
+      })
+      .catch((e) => {
+        toast.error("Ops there was a problem!");
+        console.log(e.message);
       });
   };
 
@@ -88,9 +93,10 @@ export const StateContext = ({ children }: any) => {
 
     update(ref(database, "Projects/" + numProj), curObj)
       .then(() => {
-        console.log("published");
+        toast.success(`Successfully Published`);
       })
       .catch((e) => {
+        toast.error("Ops there was a problem!");
         console.error(e);
       })
       .finally(() => {
@@ -107,6 +113,7 @@ export const StateContext = ({ children }: any) => {
     remove(ref(database, "Projects/" + id))
       .then(() => {
         console.log(`item ${id} deleted`);
+        toast.success(`${curObject.title} Deleted!`);
       })
       .then(() => {
         onLoad();
@@ -115,6 +122,7 @@ export const StateContext = ({ children }: any) => {
         }, 300);
       })
       .catch((e) => {
+        toast.error("Ops there was a problem!");
         console.error(e);
       });
   };
@@ -129,6 +137,7 @@ export const StateContext = ({ children }: any) => {
         }
       })
       .catch((e) => {
+        toast.error("Ops there was a problem!");
         console.error(e);
       });
   };
