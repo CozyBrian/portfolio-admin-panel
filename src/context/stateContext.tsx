@@ -130,7 +130,7 @@ export const StateContext = ({ children }: any) => {
   const onLoad = () => {
     get(child(dbRef, "Projects/"))
       .then((snapshot) => {
-        if (snapshot.exists()) {
+        if (snapshot.exists() && snapshot.val()) {
           setProjects(snapshot.val());
           console.log("Loaded");
           setLoaded(true);
