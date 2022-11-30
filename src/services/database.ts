@@ -28,6 +28,7 @@ export const setUserData = (
 
 export const onLoad = () => {
   return get(child(ref(getDatabase(app)), "Projects/"));
+  //hello
 };
 
 export const onDelete = (id: string) => {
