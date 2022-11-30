@@ -13,9 +13,7 @@ const WorkSpace = () => {
     onLoad()
       .then((snapshot) => {
         if (snapshot.exists() && snapshot.val()) {
-          console.log(snapshot.val());
           dispatch(action.app.loadProjects(snapshot.val()));
-          console.log("Loaded");
         }
       })
       .catch((e) => {
