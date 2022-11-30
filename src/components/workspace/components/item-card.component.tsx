@@ -1,21 +1,17 @@
 import React from "react";
 import "./item-card.css";
-import { useStateContext } from "../../../context/stateContext";
+import { useAppSelector } from "../../../hooks";
 
 interface Props {
   item: string;
 }
 
 const ItemCard = ({ item }: Props) => {
-  const state = useStateContext();
-
-  if (!state) return null;
-  const { cActive, setCActive } = state;
+  const { selectedContent } = useAppSelector((state) => state.app);
 
   return (
     <div
-      className={item === cActive ? "item-card active" : "item-card"}
-      onClick={() => setCActive(item)}
+      className={item === selectedContent ? "item-card active" : "item-card"}
     >
       {item}
     </div>

@@ -1,14 +1,24 @@
 import { useState } from "react";
-import { useAuthContext } from "../../context/authContext";
+import { useAppDispatch } from "../../hooks";
+import { action } from "../../redux";
+import { loginUser } from "../../services/authentication";
 import "./authentication.css";
 
 const Authetication = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
-  const state = useAuthContext();
-  if (!state) return null;
-  const { onLogin } = state;
+  const dispatch = useAppDispatch();
+
+  const onLogin = () => {
+    loginUser(email, pass)
+      .then((u) => {
+        dispatch(action.system.setIsAuthenticated(true));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <div className="Authentication">
@@ -39,7 +49,7 @@ const Authetication = () => {
           </div>
         </div>
         <div className="loginFooter">
-          <div className="login-button" onClick={() => onLogin(email, pass)}>
+          <div className="login-button" onClick={() => onLogin()}>
             Login
           </div>
         </div>

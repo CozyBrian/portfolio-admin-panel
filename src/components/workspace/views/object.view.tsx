@@ -1,28 +1,27 @@
 import PItemCard from "../components/pitem-card.component";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useStateContext } from "../../../context/stateContext";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { action } from "../../../redux";
 
 const ObjectView = () => {
-  const state = useStateContext();
-
-  if (!state) return null;
-  const { projects, newProject } = state;
-
+  const { projects } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
   return (
     <div className="view ObjectView">
       <div className="view-title-bar">
         <h3 className="view-title">Projects</h3>
-        <div className="tbutton" onClick={() => newProject()}>
+        <div
+          className="tbutton"
+          onClick={() => dispatch(action.app.addNewProject())}
+        >
           <AiOutlinePlus />
         </div>
       </div>
       <hr className="hr" />
       <div className="item-list">
-        {!projects
-          ? null
-          : projects.map((item: any, i: number) => (
-              <PItemCard key={i} item={item.title} />
-            ))}
+        {projects.map((item) => (
+          <PItemCard key={item.id} item={item} />
+        ))}
       </div>
     </div>
   );

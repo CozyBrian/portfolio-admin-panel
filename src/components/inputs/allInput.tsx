@@ -1,34 +1,64 @@
-import { useEffect } from "react";
-import { useStateContext } from "../../context/stateContext";
+import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import "./styles.css";
+import { uploadImage } from "../../services/database";
+import toast from "react-hot-toast";
+import { getDownloadURL } from "firebase/storage";
+import { useAppDispatch } from "../../hooks";
+import { action } from "../../redux";
 
 interface Props {
   obj: any;
 }
 
 const Inputs = ({ obj }: Props) => {
-  const state = useStateContext();
+  const dispatch = useAppDispatch();
 
-  if (!state) return null;
-  const { uploadImage, imageUrl } = state;
+  const [title, setTitle] = useState("");
+  const [fileImage, setFileImage] = useState<File>();
+  const [image, setImage] = useState("");
+  const [link, setLink] = useState("");
+  const [disc, setDisc] = useState("");
+  const [type, setType] = useState<"web" | "mobile">("web");
+  const [imgButtonClicked, setImgButtonClicked] = useState(false);
 
-  const { title, setTitle } = state;
-  const { image, setImage } = state;
-  const { link, setLink } = state;
-  const { disc, setDisc } = state;
-  const { selected, setSelected } = state;
-  const { imgButtonClicked, setImgButtonClicked } = state;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     setTitle(obj.title);
     setDisc(obj.disc);
-    setSelected(obj.type);
-    //setImage(obj.image);
+    setType(obj.type);
+    setImage(obj.image);
     setLink(obj.link);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [obj]);
+
+  useEffect(() => {
+    dispatch(
+      action.app.setProject({
+        id: obj.id,
+        title,
+        image,
+        link,
+        disc,
+        type,
+      })
+    );
+  }, [title, image, link, disc, type, dispatch, obj]);
+
+  const onUploadImage = (file: File) => {
+    if (file)
+      uploadImage(file)
+        .then((imgRef) => {
+          toast.success("Image Uploaded");
+          return imgRef;
+        })
+        .then((imgRef) => {
+          getDownloadURL(imgRef).then((url) => setImage(url));
+        })
+        .catch((e) => {
+          toast.error("Ops there was a problem!");
+          console.log(e.message);
+        });
+  };
 
   return (
     <div>
@@ -56,14 +86,14 @@ const Inputs = ({ obj }: Props) => {
         <div className="text-field-title">Type</div>
         <div className="radio-field">
           <div
-            className={selected === "web" ? "radio w active" : "radio w"}
-            onClick={() => setSelected("web")}
+            className={type === "web" ? "radio w active" : "radio w"}
+            onClick={() => setType("web")}
           >
             Web
           </div>
           <div
-            className={selected === "mobile" ? "radio m active" : "radio m"}
-            onClick={() => setSelected("mobile")}
+            className={type === "mobile" ? "radio m active" : "radio m"}
+            onClick={() => setType("mobile")}
           >
             Mobile
           </div>
@@ -73,14 +103,16 @@ const Inputs = ({ obj }: Props) => {
         <div className="text-field-title">Image</div>
         <div
           className={
-            selected === "mobile" ? "image-container" : "image-container w"
+            type === "mobile" ? "image-container" : "image-container w"
           }
         >
           <div className="image">
             {imgButtonClicked ? (
-              image.name && <img src={URL.createObjectURL(image)} alt="" />
+              fileImage?.name && (
+                <img src={URL.createObjectURL(fileImage)} alt="" />
+              )
             ) : (
-              <img src={obj.image} alt="" />
+              <img style={{ objectFit: "contain" }} src={obj.image} alt="" />
             )}
           </div>
           <input
@@ -89,7 +121,7 @@ const Inputs = ({ obj }: Props) => {
             id="image-file-input"
             onChange={(e) => {
               if (!e.target.files) return;
-              setImage(e.target.files[0]);
+              setFileImage(e.target.files[0]);
             }}
             hidden
           />
@@ -110,14 +142,17 @@ const Inputs = ({ obj }: Props) => {
               Add Image
             </label>
           ) : (
-            <button className="button" onClick={() => uploadImage(image)}>
+            <button
+              className="button"
+              onClick={() => onUploadImage(fileImage!)}
+            >
               Upload Image
             </button>
           )}
         </div>
         <input
           type="input"
-          value={imageUrl}
+          value={image}
           readOnly={true}
           placeholder="Image link"
           className="text-input"
