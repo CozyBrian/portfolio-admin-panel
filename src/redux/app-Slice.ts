@@ -40,6 +40,8 @@ const appState = createSlice({
         type: "web",
         link: "",
         disc: "",
+        live: "",
+        tags: [],
       };
       state.projects.push(temp);
       state.selectedProductId = temp.id;

@@ -20,6 +20,9 @@ const Inputs = ({ obj }: Props) => {
   const [link, setLink] = useState("");
   const [disc, setDisc] = useState("");
   const [type, setType] = useState<"web" | "mobile">("web");
+  const [live, setLive] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagsTemp, setTagsTemp] = useState("");
   const [imgButtonClicked, setImgButtonClicked] = useState(false);
 
   useEffect(() => {
@@ -28,8 +31,14 @@ const Inputs = ({ obj }: Props) => {
     setType(obj.type);
     setImage(obj.image);
     setLink(obj.link);
+    setLive(obj.live);
+    setTags(obj.tags);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [obj]);
+
+  useEffect(() => {
+    setTagsTemp(tags.join(", "));
+  }, [tags]);
 
   useEffect(() => {
     dispatch(
@@ -40,9 +49,13 @@ const Inputs = ({ obj }: Props) => {
         link,
         disc,
         type,
+        live,
+        tags: tagsTemp.split(", "),
       })
     );
-  }, [title, image, link, disc, type, dispatch, obj]);
+    setFileImage(undefined);
+    setImgButtonClicked(false);
+  }, [title, image, link, disc, type, live, tagsTemp, dispatch, obj]);
 
   const onUploadImage = (file: File) => {
     if (file)
@@ -159,12 +172,32 @@ const Inputs = ({ obj }: Props) => {
         />
       </div>
       <div className="input-container">
+        <div className="text-field-title">Tags</div>
+        <input
+          type="input"
+          value={tagsTemp}
+          onChange={(e) => setTagsTemp(e.target.value)}
+          placeholder="Link"
+          className="text-input"
+        />
+      </div>
+      <div className="input-container">
         <div className="text-field-title">Link</div>
         <input
           type="input"
           value={link}
           onChange={(e) => setLink(e.target.value)}
           placeholder="Link"
+          className="text-input"
+        />
+      </div>
+      <div className="input-container">
+        <div className="text-field-title">Live</div>
+        <input
+          type="input"
+          value={live}
+          onChange={(e) => setLive(e.target.value)}
+          placeholder="Live"
           className="text-input"
         />
       </div>

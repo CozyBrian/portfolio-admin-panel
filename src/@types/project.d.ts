@@ -4,5 +4,7 @@ export type project = {
   image: string;
   disc: string;
   type: string;
+  live: string;
   link: string;
+  tags: string[];
 };
