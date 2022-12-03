@@ -21,7 +21,6 @@ const PropertiesView = () => {
       .then((snapshot) => {
         if (snapshot.exists() && snapshot.val()) {
           dispatch(action.app.loadProjects(snapshot.val()));
-          console.log("Loaded");
         }
       })
       .catch((e) => {
