@@ -33,10 +33,10 @@ const appState = createSlice({
       state.tempProject = action.payload;
     },
     addNewProject(state) {
-      const temp = {
+      const temp: project = {
         id: nanoid(16),
         title: "Untitled",
-        image: "",
+        image: [""],
         type: "web",
         link: "",
         disc: "",

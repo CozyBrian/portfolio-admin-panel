@@ -6,24 +6,31 @@ import toast from "react-hot-toast";
 import { getDownloadURL } from "firebase/storage";
 import { useAppDispatch } from "../../hooks";
 import { action } from "../../redux";
+import { project } from "../../@types/project";
 
 interface Props {
-  obj: any;
+  obj: project;
 }
+
+type setStateType =
+  | React.Dispatch<React.SetStateAction<boolean[]>>
+  | React.Dispatch<React.SetStateAction<string[]>>
+  | React.Dispatch<React.SetStateAction<File[]>>;
 
 const Inputs = ({ obj }: Props) => {
   const dispatch = useAppDispatch();
 
   const [title, setTitle] = useState("");
-  const [fileImage, setFileImage] = useState<File>();
-  const [image, setImage] = useState("");
+  const [fileImage, setFileImage] = useState<File[]>([]);
+  const [image, setImage] = useState([""]);
   const [link, setLink] = useState("");
   const [disc, setDisc] = useState("");
   const [type, setType] = useState<"web" | "mobile">("web");
   const [live, setLive] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagsTemp, setTagsTemp] = useState("");
-  const [imgButtonClicked, setImgButtonClicked] = useState(false);
+  const [imgButtonClicked, setImgButtonClicked] = useState([false]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     setTitle(obj.title);
@@ -33,6 +40,10 @@ const Inputs = ({ obj }: Props) => {
     setLink(obj.link);
     setLive(obj.live);
     setTags(obj.tags);
+
+    setFileImage(obj.image.map((i) => new File([i], "image")));
+    setImgButtonClicked(Array.from({ length: obj.image.length }, () => false));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [obj]);
 
@@ -53,11 +64,12 @@ const Inputs = ({ obj }: Props) => {
         tags: tagsTemp.split(", "),
       })
     );
-    setFileImage(undefined);
-    setImgButtonClicked(false);
+    setFileImage([]);
+    setImgButtonClicked([false]);
+    setActiveIndex(0);
   }, [title, image, link, disc, type, live, tagsTemp, dispatch, obj]);
 
-  const onUploadImage = (file: File) => {
+  const onUploadImage = (file: File, index: number) => {
     if (file)
       uploadImage(file)
         .then((imgRef) => {
@@ -65,12 +77,36 @@ const Inputs = ({ obj }: Props) => {
           return imgRef;
         })
         .then((imgRef) => {
-          getDownloadURL(imgRef).then((url) => setImage(url));
+          getDownloadURL(imgRef).then((url) =>
+            handleChange(index, url, setImage, image)
+          );
         })
         .catch((e) => {
           toast.error("Ops there was a problem!");
           console.log(e.message);
         });
+  };
+
+  const handleChange = (
+    index: number,
+    value: any,
+    setState: setStateType,
+    state: any
+  ) => {
+    console.log(
+      `index: ${index} value: ${value} state: ${state} setState: ${typeof setState}`
+    );
+
+    const newInputs: typeof state[] = [...state];
+    newInputs[index] = value;
+    setState(newInputs);
+  };
+
+  const handleAddInput = () => {
+    setImage([...image, ""]);
+    setImgButtonClicked([...imgButtonClicked, false]);
+    setFileImage([...fileImage, new File([""], "file")]);
+    setActiveIndex(image.length - 1);
   };
 
   return (
@@ -112,65 +148,97 @@ const Inputs = ({ obj }: Props) => {
           </div>
         </div>
       </div>
-      <div className="input-container">
-        <div className="text-field-title">Image</div>
+      <div className="input-selector">
+        {image.map((_, index) => (
+          <div
+            key={index}
+            style={{
+              backgroundColor: activeIndex === index ? "#0C2D48" : "#406b90",
+            }}
+            onClick={() => setActiveIndex(index)}
+            className="input-selector__button"
+          />
+        ))}
+        <button onClick={handleAddInput}>Add image</button>
+      </div>
+      {image.map((item, index) => (
         <div
-          className={
-            type === "mobile" ? "image-container" : "image-container w"
-          }
+          className={`${activeIndex !== index && "hidden"} input-container`}
+          key={`image-input-${index}`}
         >
-          <div className="image">
-            {imgButtonClicked ? (
-              fileImage?.name && (
-                <img src={URL.createObjectURL(fileImage)} alt="" />
-              )
+          <div className="text-field-title">Image-{index + 1}</div>
+          <div
+            className={
+              type === "mobile" ? "image-container" : "image-container w"
+            }
+          >
+            <div className="image">
+              {imgButtonClicked[index] ? (
+                fileImage[index]?.name && (
+                  <img
+                    style={{ objectFit: "contain" }}
+                    src={URL.createObjectURL(fileImage![index])}
+                    alt=""
+                  />
+                )
+              ) : (
+                <img style={{ objectFit: "contain" }} src={item} alt="" />
+              )}
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              id="image-file-input"
+              onChange={(e) => {
+                if (!e.target.files) return;
+                handleChange(
+                  activeIndex,
+                  e.target.files[0],
+                  setFileImage,
+                  fileImage
+                );
+              }}
+              hidden
+            />
+            {!imgButtonClicked[index] ? (
+              <label
+                className="button"
+                onClick={() => {
+                  if (!imgButtonClicked[index]) {
+                    setTimeout(() => {
+                      handleChange(
+                        index,
+                        true,
+                        setImgButtonClicked,
+                        imgButtonClicked
+                      );
+                      return;
+                    }, 300);
+                  }
+                }}
+                htmlFor="image-file-input"
+              >
+                <AiOutlinePlus />
+                Add Image
+              </label>
             ) : (
-              <img style={{ objectFit: "contain" }} src={obj.image} alt="" />
+              <button
+                className="button"
+                onClick={() => onUploadImage(fileImage![index], activeIndex)}
+              >
+                Upload Image
+              </button>
             )}
           </div>
           <input
-            type="file"
-            accept="image/*"
-            id="image-file-input"
-            onChange={(e) => {
-              if (!e.target.files) return;
-              setFileImage(e.target.files[0]);
-            }}
-            hidden
+            type="input"
+            value={image[index]}
+            readOnly={true}
+            placeholder="Image link"
+            className="text-input"
           />
-          {!imgButtonClicked ? (
-            <label
-              className="button"
-              onClick={() => {
-                if (!imgButtonClicked) {
-                  setTimeout(() => {
-                    setImgButtonClicked(true);
-                    return;
-                  }, 300);
-                }
-              }}
-              htmlFor="image-file-input"
-            >
-              <AiOutlinePlus />
-              Add Image
-            </label>
-          ) : (
-            <button
-              className="button"
-              onClick={() => onUploadImage(fileImage!)}
-            >
-              Upload Image
-            </button>
-          )}
         </div>
-        <input
-          type="input"
-          value={image}
-          readOnly={true}
-          placeholder="Image link"
-          className="text-input"
-        />
-      </div>
+      ))}
       <div className="input-container">
         <div className="text-field-title">Tags</div>
         <input
