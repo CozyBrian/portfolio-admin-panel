@@ -1,7 +1,7 @@
 import { initializeApp } from "@firebase/app";
 
 const firebaseConfig = {
-  apiKey: `${process.env.REACT_APP_FIREBASE_KEY}`,
+  apiKey: `${import.meta.env.VITE_APP_FIREBASE_KEY}`,
   authDomain: "my-portfolio-35b84.firebaseapp.com",
   databaseURL:
     "https://my-portfolio-35b84-default-rtdb.europe-west1.firebasedatabase.app",
