@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY . .
 
+ARG VITE_APP_FIREBASE_KEY
+
+ENV VITE_APP_FIREBASE_KEY="${VITE_APP_FIREBASE_KEY}"
+
 RUN yarn install
 
 RUN yarn build
