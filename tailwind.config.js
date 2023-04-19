@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         Nunito: ["Nunito Sans", "sans-serif"],
+        SourceSansPro: ["Source Sans Pro", "sans-serif"],
       },
     },
   },
