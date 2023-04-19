@@ -15,7 +15,7 @@ const Login = () => {
 
   const onLogin = () => {
     loginUser(email, pass)
-      .then((u) => {
+      .then(() => {
         navigate("/");
         dispatch(action.auth.setIsAuthenticated(true));
       })

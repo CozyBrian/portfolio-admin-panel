@@ -1,5 +1,12 @@
 import { Project } from "@/types";
-import { getDatabase, ref, child, get, update } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  remove,
+} from "firebase/database";
 import { getStorage, ref as sRef, uploadBytes } from "firebase/storage";
 import app from ".";
 
@@ -29,4 +36,8 @@ export const uploadImage = async (image: File, filename: string) => {
 
 export const onPublish = (item: Project) => {
   return update(ref(getDatabase(app), "Projects/" + item.id), item);
+};
+
+export const onDelete = (id: string) => {
+  return remove(ref(getDatabase(app), "Projects/" + id));
 };

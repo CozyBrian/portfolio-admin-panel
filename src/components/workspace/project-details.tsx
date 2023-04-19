@@ -36,9 +36,12 @@ const ProjectDetails = ({ project }: { project: Project }) => {
   const onUploadImage = async (file: File) => {
     try {
       if (file) {
+        const filenameFragment = file.name.split(".");
         const uploadRef = await uploadImage(
           file,
-          `${project.title}-${acitveImageIndex}`
+          `${project.title}-${acitveImageIndex}.${
+            filenameFragment[filenameFragment.length - 1]
+          }`
         );
         //     toast.success("Image Uploaded");
         const url = await getDownloadURL(uploadRef.ref);
