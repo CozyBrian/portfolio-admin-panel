@@ -5,6 +5,8 @@ import MoreButton from "./More-button";
 import { RotateCw, Trash2 } from "lucide-react";
 import { getProjects, onDelete } from "@/firebase/database";
 import { action } from "@/redux";
+import { toast } from "react-hot-toast";
+import { Project } from "@/types";
 
 const WorkSpace = () => {
   const { items: projects, selectedProjectId } = useAppSelector(
@@ -27,19 +29,27 @@ const WorkSpace = () => {
           items={[
             {
               label: "Delete",
-              callback: () => {
-                onDelete(selectedProject?.id!).then(async () => {
-                  const projects = await getProjects();
-                  if (!projects) return;
-                  dispatch(action.projects.setProjects(projects));
+              callback: async () => {
+                await toast.promise(onDelete(selectedProject?.id!), {
+                  loading: "Loading",
+                  success: `${selectedProject?.title} deleted`,
+                  error: "Error when deleting",
                 });
+
+                const projects = await getProjects();
+                if (!projects) return;
+                dispatch(action.projects.setProjects(projects));
               },
               icon: () => <Trash2 size={18} />,
             },
             {
               label: "Refresh",
               callback: async () => {
-                const projects = await getProjects();
+                const projects = await toast.promise(getProjects(), {
+                  loading: "Loading",
+                  success: "Got the data",
+                  error: "Error when fetching",
+                });
                 if (!projects) return;
                 dispatch(action.projects.setProjects(projects));
               },

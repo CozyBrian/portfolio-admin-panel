@@ -3,6 +3,7 @@ import {
   getAuth,
   setPersistence,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 const auth = getAuth();
@@ -19,4 +20,9 @@ export const loginUser = async (email: string, password: string) => {
 
 export const isUserSignedIn = () => {
   return auth.currentUser !== null;
+};
+
+export const signOutUser = () => {
+  const auth = getAuth();
+  return signOut(auth);
 };

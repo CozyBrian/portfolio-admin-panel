@@ -5,10 +5,7 @@ type initialStateType = {
 };
 
 const initialState: initialStateType = {
-  isAuthenticated:
-    typeof window !== "undefined"
-      ? localStorage.getItem("accessToken") !== null
-      : false,
+  isAuthenticated: false,
 };
 
 const authSlice = createSlice({

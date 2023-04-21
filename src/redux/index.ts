@@ -8,14 +8,14 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-function saveToLocalStorage(state: RootState) {
-  try {
-    const serialisedState = JSON.stringify(state);
-    localStorage.setItem("persistantState", serialisedState);
-  } catch (e) {
-    console.warn(e);
-  }
-}
+// function saveToLocalStorage(state: RootState) {
+//   try {
+//     const serialisedState = JSON.stringify(state);
+//     localStorage.setItem("persistantState", serialisedState);
+//   } catch (e) {
+//     console.warn(e);
+//   }
+// }
 
 // load string from localStarage and convert into an Object
 // invalid output must be undefined
@@ -44,7 +44,5 @@ const store = configureStore({
     projects: projectsSlice.reducer,
   },
 });
-
-store.subscribe(() => saveToLocalStorage(store.getState()));
 
 export default store;

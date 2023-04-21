@@ -1,11 +1,13 @@
 import { Project } from "@/types";
 
+const dummyFile = new File([""], "file");
+
 export const initialState = {
   title: "",
   description: "",
   type: "web" as "web" | "mobile",
   images: [""] as string[],
-  fileImages: [new File([""], "file")] as File[],
+  fileImages: [dummyFile] as File[],
   tags: "",
   link: "",
   live: "",

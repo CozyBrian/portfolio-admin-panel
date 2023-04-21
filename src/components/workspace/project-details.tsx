@@ -12,10 +12,15 @@ import { getProjects, onPublish, uploadImage } from "@/firebase/database";
 import { getDownloadURL } from "firebase/storage";
 import { useAppDispatch } from "@/hooks";
 import { action } from "@/redux";
+import { toast } from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
+import { signOutUser } from "@/firebase/authentication";
 
 const ProjectDetails = ({ project }: { project: Project }) => {
   const [state, localDispatch] = useReducer(reducer, initialState);
   const [acitveImageIndex, setAcitveImageIndex] = useState(0);
+  const [isImageUploading, setisImageUploading] = useState(false);
+  const [isProjectSaving, setIsProjectSaving] = useState(false);
   const [imgButtonClicked, setImgButtonClicked] = useState<Boolean[]>(
     Array(project.image.length).fill(false)
   );
@@ -37,14 +42,16 @@ const ProjectDetails = ({ project }: { project: Project }) => {
     try {
       if (file) {
         const filenameFragment = file.name.split(".");
+        setisImageUploading(true);
         const uploadRef = await uploadImage(
           file,
           `${project.title}-${acitveImageIndex}.${
             filenameFragment[filenameFragment.length - 1]
           }`
         );
-        //     toast.success("Image Uploaded");
         const url = await getDownloadURL(uploadRef.ref);
+        toast.success("Image Uploaded");
+        setisImageUploading(false);
         const tempImages = [...state.images];
         tempImages[acitveImageIndex] = url;
         localDispatch(localAction.setImages(tempImages));
@@ -137,7 +144,17 @@ const ProjectDetails = ({ project }: { project: Project }) => {
                 : "border-slate-700 text-gray-800"
             )}
           >
-            Upload Image
+            {isImageUploading ? (
+              <Oval
+                width={22}
+                height={22}
+                color="rgb(107 114 128)"
+                secondaryColor="slate-500"
+                strokeWidth={6}
+              />
+            ) : (
+              "Upload Image"
+            )}
           </button>
         </div>
       </section>
@@ -224,7 +241,11 @@ const ProjectDetails = ({ project }: { project: Project }) => {
         </div>
         <div className="flex flex-row gap-2 justify-end">
           <button
-            onClick={() => {}}
+            onClick={() => {
+              signOutUser().then(() => {
+                dispatch(action.auth.setIsAuthenticated(false));
+              });
+            }}
             className={cn(
               "flex flex-row items-center justify-center w-[120px] h-12 text-lg text-slate-700 border-2 border-slate-700"
             )}
@@ -243,20 +264,32 @@ const ProjectDetails = ({ project }: { project: Project }) => {
                 live: state.live,
                 tags: state.tags.split(", "),
               };
-
+              setIsProjectSaving(true);
               onPublish(tempProject).then(() => {
                 (async () => {
+                  toast.success("Project saved successfully");
                   const projects = await getProjects();
                   if (!projects) return;
                   dispatch(action.projects.setProjects(projects));
                 })();
+                setIsProjectSaving(false);
               });
             }}
             className={cn(
               "flex flex-row items-center justify-center w-[120px] h-12 text-lg text-gray-200 bg-slate-700"
             )}
           >
-            Save
+            {isProjectSaving ? (
+              <Oval
+                width={24}
+                height={24}
+                color="rgb(229 231 235)"
+                secondaryColor="slate-500"
+                strokeWidth={6}
+              />
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </section>
