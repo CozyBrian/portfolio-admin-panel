@@ -2,11 +2,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import ProjectDetails from "./project-details";
 import { Oval } from "react-loader-spinner";
 import MoreButton from "./More-button";
-import { RotateCw, Trash2 } from "lucide-react";
+import { RotateCw, Trash2, LogOut } from "lucide-react";
 import { getProjects, onDelete } from "@/firebase/database";
 import { action } from "@/redux";
 import { toast } from "react-hot-toast";
-import { Project } from "@/types";
+import { signOutUser } from "@/firebase/authentication";
 
 const WorkSpace = () => {
   const { items: projects, selectedProjectId } = useAppSelector(
@@ -28,19 +28,12 @@ const WorkSpace = () => {
         <MoreButton
           items={[
             {
-              label: "Delete",
+              label: "Logout",
               callback: async () => {
-                await toast.promise(onDelete(selectedProject?.id!), {
-                  loading: "Loading",
-                  success: `${selectedProject?.title} deleted`,
-                  error: "Error when deleting",
-                });
-
-                const projects = await getProjects();
-                if (!projects) return;
-                dispatch(action.projects.setProjects(projects));
+                await signOutUser();
+                dispatch(action.auth.setIsAuthenticated(false));
               },
-              icon: () => <Trash2 size={18} />,
+              icon: () => <LogOut size={18} />,
             },
             {
               label: "Refresh",
@@ -54,6 +47,21 @@ const WorkSpace = () => {
                 dispatch(action.projects.setProjects(projects));
               },
               icon: () => <RotateCw size={18} />,
+            },
+            {
+              label: "Delete",
+              callback: async () => {
+                await toast.promise(onDelete(selectedProject?.id!), {
+                  loading: "Loading",
+                  success: `${selectedProject?.title} deleted`,
+                  error: "Error when deleting",
+                });
+
+                const projects = await getProjects();
+                if (!projects) return;
+                dispatch(action.projects.setProjects(projects));
+              },
+              icon: () => <Trash2 size={18} />,
             },
           ]}
         />

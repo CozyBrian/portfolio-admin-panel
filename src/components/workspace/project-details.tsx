@@ -14,7 +14,6 @@ import { useAppDispatch } from "@/hooks";
 import { action } from "@/redux";
 import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
-import { signOutUser } from "@/firebase/authentication";
 
 const ProjectDetails = ({ project }: { project: Project }) => {
   const [state, localDispatch] = useReducer(reducer, initialState);
@@ -241,11 +240,7 @@ const ProjectDetails = ({ project }: { project: Project }) => {
         </div>
         <div className="flex flex-row gap-2 justify-end">
           <button
-            onClick={() => {
-              signOutUser().then(() => {
-                dispatch(action.auth.setIsAuthenticated(false));
-              });
-            }}
+            onClick={() => {}}
             className={cn(
               "flex flex-row items-center justify-center w-[120px] h-12 text-lg text-slate-700 border-2 border-slate-700"
             )}
