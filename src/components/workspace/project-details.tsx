@@ -46,7 +46,8 @@ const ProjectDetails = ({ project }: { project: Project }) => {
           file,
           `${project.title}-${acitveImageIndex}.${
             filenameFragment[filenameFragment.length - 1]
-          }`
+          }`,
+          "projects-screenshots"
         );
         const url = await getDownloadURL(uploadRef.ref);
         toast.success("Image Uploaded");
@@ -240,7 +241,10 @@ const ProjectDetails = ({ project }: { project: Project }) => {
         </div>
         <div className="flex flex-row gap-2 justify-end">
           <button
-            onClick={() => {}}
+            onClick={() => {
+              localDispatch(localAction.setProject(project));
+              setAcitveImageIndex(0);
+            }}
             className={cn(
               "flex flex-row items-center justify-center w-[120px] h-12 text-lg text-slate-700 border-2 border-slate-700"
             )}

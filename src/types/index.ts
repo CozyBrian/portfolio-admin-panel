@@ -8,3 +8,8 @@ export type Project = {
   link: string;
   tags: string[];
 };
+
+export type Profile = {
+  profileImage: string;
+  resume: string;
+};

@@ -20,7 +20,7 @@ const Login = () => {
     setIsRequestSent(true);
     loginUser(email, pass)
       .then(() => {
-        navigate("/");
+        navigate("/", { replace: true });
         dispatch(action.auth.setIsAuthenticated(true));
       })
       .catch((e) => {
@@ -38,7 +38,7 @@ const Login = () => {
       if (count > 0) {
         console.log(count);
         if (isUserSignedIn()) {
-          navigate("/");
+          navigate(-1);
           dispatch(action.auth.setIsAuthenticated(true));
         } else {
           setTimeout(() => run(count - 1), 500);

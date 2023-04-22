@@ -1,4 +1,4 @@
-import { Project } from "@/types";
+import { Profile, Project } from "@/types";
 import {
   getDatabase,
   ref,
@@ -26,8 +26,28 @@ export const getProjects = async (): Promise<Project[] | undefined> => {
   }
 };
 
-export const uploadImage = async (image: File, filename: string) => {
-  const imgRef = sRef(getStorage(app), `projects-screenshots/${filename}`);
+export const getProfile = async () => {
+  try {
+    const snapshot = await get(child(dbRef, "Profile"));
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateProfile = async (profile: Profile) => {
+  return update(ref(getDatabase(app), "Profile"), profile);
+};
+
+export const uploadImage = async (
+  image: File,
+  filename: string,
+  path: string
+) => {
+  const imgRef = sRef(getStorage(app), `${path}/${filename}`);
 
   const sentImageRef = await uploadBytes(imgRef, image);
 

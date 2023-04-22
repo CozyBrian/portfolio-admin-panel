@@ -1,14 +1,19 @@
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
-import { Project } from "@/types";
+import { Profile, Project } from "@/types";
 
 type initialStateType = {
   selectedProjectId: string;
   items: Project[];
+  profile: Profile;
 };
 
 const initialState: initialStateType = {
   selectedProjectId: "AA",
   items: [],
+  profile: {
+    profileImage: "",
+    resume: "",
+  },
 };
 
 const projectsSlice = createSlice({
@@ -22,6 +27,9 @@ const projectsSlice = createSlice({
       });
       state.items = tempProjects;
       state.selectedProjectId = tempProjects[0].id;
+    },
+    setProfile(state, action) {
+      state.profile = action.payload;
     },
     setSelectedTabId(state, action: PayloadAction<string>) {
       state.selectedProjectId = action.payload;
