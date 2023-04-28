@@ -1,4 +1,4 @@
-import { Profile, Project } from "@/types";
+import { Profile, Project, Work } from "@/types";
 import {
   getDatabase,
   ref,
@@ -17,6 +17,18 @@ const dbRef = ref(database);
 export const getProjects = async (): Promise<Project[] | undefined> => {
   try {
     const snapshot = await get(child(dbRef, "Projects"));
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getWorks = async (): Promise<Work[] | undefined> => {
+  try {
+    const snapshot = await get(child(dbRef, "Work"));
 
     if (snapshot.exists()) {
       return snapshot.val();
@@ -54,10 +66,18 @@ export const uploadImage = async (
   return sentImageRef;
 };
 
-export const onPublish = (item: Project) => {
+export const onPublishProject = (item: Project) => {
   return update(ref(getDatabase(app), "Projects/" + item.id), item);
 };
 
-export const onDelete = (id: string) => {
+export const onPublishWork = (item: Work) => {
+  return update(ref(getDatabase(app), "Work/" + item.id), item);
+};
+
+export const onDeleteProject = (id: string) => {
   return remove(ref(getDatabase(app), "Projects/" + id));
+};
+
+export const onDeleteWork = (id: string) => {
+  return remove(ref(getDatabase(app), "Work/" + id));
 };

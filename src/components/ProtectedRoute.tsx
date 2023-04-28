@@ -1,7 +1,7 @@
 import { useAppSelector } from "../hooks";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   let location = useLocation();
@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

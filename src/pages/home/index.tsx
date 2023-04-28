@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Header from "@/components/header";
 import SideBar from "@/components/sidebar";
 import WorkSpace from "@/components/workspace";
 import { getProjects } from "@/firebase/database";
@@ -17,13 +16,10 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col">
-      <Header />
-      <main className="flex flex-row h-[calc(100vh-3rem)]">
-        <SideBar />
-        <WorkSpace />
-      </main>
-    </div>
+    <>
+      <SideBar />
+      <WorkSpace />
+    </>
   );
 };
 

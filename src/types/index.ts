@@ -9,6 +9,16 @@ export type Project = {
   tags: string[];
 };
 
+export type Work = {
+  id: string;
+  company: string;
+  position: string;
+  startDate: string;
+  endDate: string;
+  image: string;
+  description: string[];
+};
+
 export type Profile = {
   profileImage: string;
   resume: string;

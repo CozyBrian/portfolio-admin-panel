@@ -8,7 +8,11 @@ import {
 } from "@/reducers/projectReducer";
 import ComboBox from "./components/combo-box";
 import { Project } from "@/types";
-import { getProjects, onPublish, uploadImage } from "@/firebase/database";
+import {
+  getProjects,
+  onPublishProject,
+  uploadImage,
+} from "@/firebase/database";
 import { getDownloadURL } from "firebase/storage";
 import { useAppDispatch } from "@/hooks";
 import { action } from "@/redux";
@@ -264,7 +268,7 @@ const ProjectDetails = ({ project }: { project: Project }) => {
                 tags: state.tags.split(", "),
               };
               setIsProjectSaving(true);
-              onPublish(tempProject).then(() => {
+              onPublishProject(tempProject).then(() => {
                 (async () => {
                   toast.success("Project saved successfully");
                   const projects = await getProjects();
