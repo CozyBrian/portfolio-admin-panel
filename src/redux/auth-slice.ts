@@ -9,7 +9,7 @@ const initialState: initialStateType = {
 };
 
 const authSlice = createSlice({
-  name: "app",
+  name: "auth",
   initialState,
   reducers: {
     setIsAuthenticated(state, action: PayloadAction<boolean>) {
