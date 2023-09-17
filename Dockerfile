@@ -2,13 +2,13 @@ FROM oven/bun
 
 WORKDIR /app
 
-# COPY package*.json ./
+COPY package*.json ./
 
-# RUN bun install
+RUN bun install
 
 COPY . .
 
-# RUN bunx --bun vite build
+RUN bun run build
 
 RUN bun add --global serve
 
