@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import * as path from "path";
 import react from "@vitejs/plugin-react";
+import ClosePlugin from "./vite-plugin-close";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), ClosePlugin()],
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
   },
