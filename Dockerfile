@@ -1,15 +1,15 @@
-FROM oven/bun
+FROM node:16-alpine
 
 WORKDIR /app
 
-# COPY package*.json ./
+COPY package*.json ./
 
-# RUN bun install
+RUN yarn install
 
 COPY . .
 
-# RUN bunx --bun vite build
+RUN yarn build
 
-RUN bun add --global serve
+RUN yarn global add serve
 
-CMD ["bunx", "serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
