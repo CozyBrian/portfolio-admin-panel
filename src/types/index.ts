@@ -7,10 +7,12 @@ export type Project = {
   live: string;
   link: string;
   tags: string[];
+  pos: number | undefined;
 };
 
 export type Work = {
   id: string;
+  pos: number | undefined;
   company: string;
   url: string;
   position: string;

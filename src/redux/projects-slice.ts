@@ -31,10 +31,14 @@ const projectsSlice = createSlice({
       }>
     ) {
       let tempProjects: Project[] = [];
-      Object.entries(action.payload).forEach(([_, value], __) => {
+      Object.entries(action.payload).forEach(([_, value], i) => {
+        if (value.pos === undefined) {
+          value.pos = i;
+        }
         tempProjects.push(value);
       });
-      state.items = tempProjects;
+      const sortedTempProjects = tempProjects.sort((a, b) => a.pos! - b.pos!);
+      state.items = sortedTempProjects;
       state.selectedProjectId = tempProjects[0].id;
     },
     setWorks(
@@ -44,11 +48,21 @@ const projectsSlice = createSlice({
       }>
     ) {
       let tempWorks: Work[] = [];
-      Object.entries(action.payload).forEach(([_, value], __) => {
+      Object.entries(action.payload).forEach(([_, value], i) => {
+        if (value.pos === undefined) {
+          value.pos = i;
+        }
         tempWorks.push(value);
       });
-      state.works = tempWorks;
+      const sortedTempWorks = tempWorks.sort((a, b) => a.pos! - b.pos!);
+      state.works = sortedTempWorks;
       state.selectedWorkId = tempWorks[0].id;
+    },
+    setReorderProjects(state, action: PayloadAction<Project[]>) {
+      state.items = action.payload;
+    },
+    setReorderWorks(state, action: PayloadAction<Work[]>) {
+      state.works = action.payload;
     },
     setProfile(state, action) {
       state.profile = action.payload;
@@ -66,6 +80,7 @@ const projectsSlice = createSlice({
         description: [""],
         position: "",
         image: "",
+        pos: state.works.length,
         stack: [],
         url: "",
         startDate: "",
@@ -84,6 +99,7 @@ const projectsSlice = createSlice({
         disc: "",
         live: "",
         tags: [],
+        pos: state.items.length,
       };
       state.items.push(temp);
       state.selectedProjectId = temp.id;

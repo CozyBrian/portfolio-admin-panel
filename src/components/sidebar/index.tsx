@@ -4,6 +4,8 @@ import { Oval } from "react-loader-spinner";
 import cn from "classnames";
 import { useLocation, useNavigate } from "react-router-dom";
 import { action } from "@/redux";
+import { Reorder } from "framer-motion";
+import { onPublishProject, onPublishWork } from "@/firebase/database";
 
 const SideBar = () => {
   const { items } = useAppSelector((state) => state.projects);
@@ -30,11 +32,26 @@ const SideBar = () => {
       ) : (
         <>
           <nav className="overflow-scroll mb-2">
-            <ul className="flex flex-col mt-4 gap-2">
+            <Reorder.Group
+              values={items}
+              onReorder={async (res) => {
+                const tempArray = [
+                  ...res.map((item) => Object.assign({}, item)),
+                ];
+                dispatch(action.projects.setReorderProjects(tempArray));
+                tempArray.forEach(async (item, i) => {
+                  const tempItem = { ...item, pos: i };
+                  await onPublishProject(tempItem);
+                });
+              }}
+              className="flex flex-col mt-4 gap-2"
+            >
               {items.map((item) => (
-                <SidebarItem key={item.id} item={item} />
+                <Reorder.Item as="div" key={item.id} value={item}>
+                  <SidebarItem key={item.id} item={item} />
+                </Reorder.Item>
               ))}
-            </ul>
+            </Reorder.Group>
           </nav>
           <div className="shrink-0">
             <AddButton
@@ -77,11 +94,26 @@ export const WorkSideBar = () => {
       ) : (
         <>
           <nav className="overflow-scroll mb-2">
-            <ul className="flex flex-col mt-4 gap-2">
+            <Reorder.Group
+              values={works}
+              onReorder={async (res) => {
+                const tempArray = [
+                  ...res.map((item) => Object.assign({}, item)),
+                ];
+                dispatch(action.projects.setReorderWorks(tempArray));
+                tempArray.forEach(async (item, i) => {
+                  const tempItem = { ...item, pos: i };
+                  await onPublishWork(tempItem);
+                });
+              }}
+              className="flex flex-col mt-4 gap-2"
+            >
               {works.map((item) => (
-                <SidebarItem key={item.id} item={item} />
+                <Reorder.Item as="div" key={item.id} value={item}>
+                  <SidebarItem item={item} />
+                </Reorder.Item>
               ))}
-            </ul>
+            </Reorder.Group>
           </nav>
           <div className="shrink-0">
             <AddButton
