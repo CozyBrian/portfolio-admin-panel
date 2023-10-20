@@ -14,7 +14,12 @@ const database = getDatabase(app);
 
 const dbRef = ref(database);
 
-export const getProjects = async (): Promise<Project[] | undefined> => {
+export const getProjects = async (): Promise<
+  | {
+      [key: string]: Project;
+    }
+  | undefined
+> => {
   try {
     const snapshot = await get(child(dbRef, "Projects"));
 
@@ -26,7 +31,12 @@ export const getProjects = async (): Promise<Project[] | undefined> => {
   }
 };
 
-export const getWorks = async (): Promise<Work[] | undefined> => {
+export const getWorks = async (): Promise<
+  | {
+      [key: string]: Work;
+    }
+  | undefined
+> => {
   try {
     const snapshot = await get(child(dbRef, "Work"));
 

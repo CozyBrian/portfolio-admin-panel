@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { action } from "@/redux";
 import { useAppDispatch } from "@/hooks";
 import { Plus } from "lucide-react";
+import ComboBox from "./components/combo-box";
 
 const WorkDetails = ({ work }: { work: Work }) => {
   const [state, localDispatch] = useReducer(reducer, initialState);
@@ -140,12 +141,32 @@ const WorkDetails = ({ work }: { work: Work }) => {
               onChange={(e) => {
                 localDispatch(localAction.setPosition(e.target.value));
               }}
-              placeholder="Live"
+              placeholder="Position"
               className={cn(
                 "h-12 w-full border-2 border-gray-400 rounded-md focus:outline-none px-3 text-lg"
               )}
             />
           </div>
+          <div className="w-full">
+            <input
+              type="text"
+              value={state.url}
+              onChange={(e) => {
+                localDispatch(localAction.setUrl(e.target.value));
+              }}
+              placeholder="Url"
+              className={cn(
+                "h-12 w-full border-2 border-gray-400 rounded-md focus:outline-none px-3 text-lg"
+              )}
+            />
+          </div>
+          <ComboBox
+            value={state.stack}
+            placeholder="Stack"
+            onChange={(value) => {
+              localDispatch(localAction.setStack(value));
+            }}
+          />
           <div className="flex flex-row gap-4 w-full">
             <input
               type="text"
@@ -235,19 +256,17 @@ const WorkDetails = ({ work }: { work: Work }) => {
           </button>
           <button
             onClick={() => {
-              const tempWork: Work = {
+              const tempWork = {
                 ...work,
-                company: state.company,
-                position: state.position,
-                description: state.description,
-                startDate: state.startDate,
-                endDate: state.endDate,
-                image: state.image,
+                ...state,
+                stack: state.stack.split(", "),
+                fileImage: undefined,
               };
+              delete tempWork.fileImage;
               setIsWorkSaving(true);
               onPublishWork(tempWork).then(() => {
                 (async () => {
-                  toast.success("Project saved successfully");
+                  toast.success("Work saved successfully");
                   const works = await getWorks();
                   if (!works) return;
                   dispatch(action.projects.setWorks(works));

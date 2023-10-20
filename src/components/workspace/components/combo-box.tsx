@@ -4,10 +4,11 @@ import useEventListener from "@/hooks/useEventListener";
 
 interface ComboBoxProps {
   value: string;
+  placeholder?: string;
   onChange: (value: string) => void;
 }
 
-const ComboBox = ({ value, onChange }: ComboBoxProps) => {
+const ComboBox = ({ value, onChange, placeholder = "Tags" }: ComboBoxProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const tagItems = value.split(",");
@@ -29,7 +30,7 @@ const ComboBox = ({ value, onChange }: ComboBoxProps) => {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Tags"
+        placeholder={placeholder}
         className={cn(
           "absolute top-0 left-0 h-12 w-full flex-row gap-1 border-2",
           "border-gray-400 bg-white rounded-md focus:outline-none p-1 text-lg",

@@ -24,18 +24,28 @@ const projectsSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    setProjects(state, action) {
+    setProjects(
+      state,
+      action: PayloadAction<{
+        [key: string]: Project;
+      }>
+    ) {
       let tempProjects: Project[] = [];
       Object.entries(action.payload).forEach(([_, value], __) => {
-        tempProjects.push(value as Project);
+        tempProjects.push(value);
       });
       state.items = tempProjects;
       state.selectedProjectId = tempProjects[0].id;
     },
-    setWorks(state, action) {
+    setWorks(
+      state,
+      action: PayloadAction<{
+        [key: string]: Work;
+      }>
+    ) {
       let tempWorks: Work[] = [];
       Object.entries(action.payload).forEach(([_, value], __) => {
-        tempWorks.push(value as Work);
+        tempWorks.push(value);
       });
       state.works = tempWorks;
       state.selectedWorkId = tempWorks[0].id;
@@ -56,6 +66,8 @@ const projectsSlice = createSlice({
         description: [""],
         position: "",
         image: "",
+        stack: [],
+        url: "",
         startDate: "",
         endDate: "",
       };

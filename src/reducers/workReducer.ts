@@ -8,6 +8,8 @@ export const initialState = {
   position: "",
   endDate: "",
   startDate: "",
+  url: "",
+  stack: "",
   image: "",
   fileImage: dummyFile,
 };
@@ -18,6 +20,8 @@ type ACTIONTYPE =
   | { type: "addDescription"; payload: string }
   | { type: "setDescription"; payload: { index: number; value: string } }
   | { type: "setPosition"; payload: string }
+  | { type: "setUrl"; payload: string }
+  | { type: "setStack"; payload: string }
   | { type: "setEndDate"; payload: string }
   | { type: "setStartDate"; payload: string }
   | { type: "setImage"; payload: string }
@@ -43,6 +47,14 @@ export const action = {
   }),
   setPosition: (payload: string): ACTIONTYPE => ({
     type: "setPosition",
+    payload,
+  }),
+  setUrl: (payload: string): ACTIONTYPE => ({
+    type: "setUrl",
+    payload,
+  }),
+  setStack: (payload: string): ACTIONTYPE => ({
+    type: "setStack",
     payload,
   }),
   setEndDate: (payload: string): ACTIONTYPE => ({
@@ -75,6 +87,10 @@ export const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
       return { ...state, description: [...description] };
     case "setPosition":
       return { ...state, position: action.payload };
+    case "setUrl":
+      return { ...state, url: action.payload };
+    case "setStack":
+      return { ...state, stack: action.payload };
     case "setEndDate":
       return { ...state, endDate: action.payload };
     case "setStartDate":
@@ -90,6 +106,8 @@ export const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
         position: action.payload.position,
         endDate: action.payload.endDate,
         startDate: action.payload.startDate,
+        url: action.payload.url || "",
+        stack: (action.payload.stack || []).join(","),
         image: action.payload.image,
         fileImage: dummyFile,
       };

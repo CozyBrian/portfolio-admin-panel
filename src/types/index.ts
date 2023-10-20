@@ -12,11 +12,13 @@ export type Project = {
 export type Work = {
   id: string;
   company: string;
+  url: string;
   position: string;
   startDate: string;
   endDate: string;
   image: string;
   description: string[];
+  stack: string[];
 };
 
 export type Profile = {
